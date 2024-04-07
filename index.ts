@@ -16,7 +16,7 @@ export type Options = {
   height?: number;
 };
 
-export async function getTableImage(data: TableData, options: Options = {}) {
+export async function getTableImage(data: TableData, options: Options = {}): Promise<Buffer> {
   const url = `https://table-generator.kadirgun.com/#${btoa(JSON.stringify(data))}`;
 
   const browser = await puppeteer.launch({
@@ -28,7 +28,7 @@ export async function getTableImage(data: TableData, options: Options = {}) {
   const image = await page.screenshot({ fullPage: true });
   await browser.close();
 
-  writeFileSync("table.png", image);
+  return image;
 }
 
 export default getTableImage;
